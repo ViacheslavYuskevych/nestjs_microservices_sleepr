@@ -19,18 +19,18 @@ export class ReservationsService {
     return this.repository.find({});
   }
 
-  findOne(_id: number) {
+  findOne(_id: string) {
     return this.repository.findOne({ _id });
   }
 
-  update(_id: number, updateReservationDto: UpdateReservationDto) {
+  update(_id: string, updateReservationDto: UpdateReservationDto) {
     return this.repository.findOneAndUpdate(
       { _id },
       { $set: updateReservationDto },
     );
   }
 
-  remove(_id: number) {
+  remove(_id: string) {
     return this.repository.findOneAndDelete({ _id });
   }
 }
