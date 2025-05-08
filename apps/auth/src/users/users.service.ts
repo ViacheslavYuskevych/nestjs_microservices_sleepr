@@ -7,6 +7,10 @@ import { UsersRepository } from './users.repository';
 export class UsersService {
   constructor(private readonly repository: UsersRepository) {}
 
+  findOne(_id: string) {
+    return this.repository.findOne({ _id });
+  }
+
   async create({ password, ...dto }: CreateUserDto) {
     return this.repository.create({
       ...dto,
@@ -22,7 +26,6 @@ export class UsersService {
       throw new UnauthorizedException('Credentials are not valid.');
     }
 
-    console.log('user: ', user);
     return user;
   }
 
