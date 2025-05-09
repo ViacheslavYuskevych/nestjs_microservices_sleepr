@@ -15,8 +15,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const secretOrKey = configService.get<string>('JWT_SECRET') ?? '';
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
-        (req: Request) => req?.cookies?.Authentication,
+        (req: Request | { Authentication: string }) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+          if ('cookies' in req) return req.cookies?.Authentication;
+          return req.Authentication;
+        },
       ]),
       secretOrKey,
     });
