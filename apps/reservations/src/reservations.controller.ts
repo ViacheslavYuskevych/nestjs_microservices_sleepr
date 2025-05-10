@@ -18,6 +18,7 @@ export class ReservationsController {
   constructor(private readonly reservationService: ReservationsService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   create(@Body() createReservationDto: CreateReservationDto) {
     return this.reservationService.create(createReservationDto);
   }
@@ -29,11 +30,13 @@ export class ReservationsController {
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   findOne(@Param('id') id: string) {
     return this.reservationService.findOne(id);
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   update(
     @Param('id') id: string,
     @Body() updateReservationDto: UpdateReservationDto,
@@ -42,6 +45,7 @@ export class ReservationsController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.reservationService.remove(id);
   }

@@ -1,18 +1,31 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { from, mergeMap } from 'rxjs';
+import { PAYMENTS_SERVICE } from '@app/common';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto } from './dto/update-reservation.dto';
 import { ReservationsRepository } from './reservations.repository';
 
 @Injectable()
 export class ReservationsService {
-  constructor(private readonly repository: ReservationsRepository) {}
+  constructor(
+    private readonly repository: ReservationsRepository,
+    @Inject(PAYMENTS_SERVICE) private readonly paymentService: ClientProxy,
+  ) {}
 
-  create(createReservationDto: CreateReservationDto) {
-    return this.repository.create({
-      ...createReservationDto,
-      timestamp: new Date(),
-      userId: '123',
-    });
+  create(dto: CreateReservationDto) {
+    return this.paymentService.send('create_charge', dto.charge).pipe(
+      mergeMap(({ id: invoiceId }: { id: string }) => {
+        const reservation = this.repository.create({
+          ...dto,
+          timestamp: new Date(),
+          userId: '123',
+          invoiceId,
+        });
+
+        return from(reservation);
+      }),
+    );
   }
 
   findAll() {
