@@ -8,7 +8,7 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from '@app/common';
+import { JwtAuthGuard, UserDto, CurrentUser } from '@app/common';
 import { ReservationsService } from './reservations.service';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto } from './dto/update-reservation.dto';
@@ -19,14 +19,17 @@ export class ReservationsController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  create(@Body() createReservationDto: CreateReservationDto) {
-    return this.reservationService.create(createReservationDto);
+  create(
+    @Body() createReservationDto: CreateReservationDto,
+    @CurrentUser() user: UserDto,
+  ) {
+    return this.reservationService.create(createReservationDto, user);
   }
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  findAll() {
-    return this.reservationService.findAll();
+  findAll(@CurrentUser() user: UserDto) {
+    return this.reservationService.findAll(user._id.toString());
   }
 
   @Get(':id')
