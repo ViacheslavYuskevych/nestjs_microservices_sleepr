@@ -12,6 +12,10 @@ import { NotificationsService } from './notifications.service';
       isGlobal: true,
       validationSchema: Joi.object({
         PORT: Joi.number().required(),
+        SMTP_HOST: Joi.string().required(),
+        SMTP_PORT: Joi.number().required(),
+        SMTP_USER: Joi.string().required(),
+        SMTP_APP_PASSWORD: Joi.string().required(),
       }),
     }),
   ],
