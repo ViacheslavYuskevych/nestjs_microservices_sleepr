@@ -8,11 +8,13 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+  }
 
-  @Get()
-  getHello(): string {
-    return this.authService.getHello();
+  @Get('health')
+  checkHealth() {
+    return 'Auth API is OK!';
   }
 
   @UseGuards(LocalAuthGuard)

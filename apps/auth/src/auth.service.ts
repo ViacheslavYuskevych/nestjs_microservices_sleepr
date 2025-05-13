@@ -11,10 +11,6 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  getHello(): string {
-    return 'Hello World!';
-  }
-
   login(user: UserDocument, response: Response) {
     const tokenPayload = {
       userId: user._id.toHexString(),
