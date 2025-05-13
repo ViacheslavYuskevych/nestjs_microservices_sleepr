@@ -70,5 +70,6 @@ steps:
         'push',
         'europe-central2-docker.pkg.dev/silken-impulse-459518-f6/payments/production',
       ]
+
 options:
   logging: CLOUD_LOGGING_ONLY
