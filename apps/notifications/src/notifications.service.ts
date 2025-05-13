@@ -18,9 +18,6 @@ export class NotificationsService {
     const pass = configService.get<string>('SMTP_APP_PASSWORD');
     this._smtpUser = configService.get<string>('SMTP_USER') ?? '';
 
-    console.log('pass', pass);
-    console.log('this._smtpUser', this._smtpUser);
-
     this._transporter = nodemailer.createTransport({
       host,
       port,

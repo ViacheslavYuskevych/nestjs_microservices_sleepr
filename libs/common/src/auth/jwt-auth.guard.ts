@@ -22,8 +22,8 @@ export class JwtAuthGuard implements CanActivate {
 
     return this.authClient.send('authenticate', { Authentication: jwt }).pipe(
       tap((user) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        request.user = user;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        context.switchToHttp().getRequest().user = user;
       }),
       map(() => true),
       catchError(() => of(true)),
